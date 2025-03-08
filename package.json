@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "La siguiente es una Api Rest con ORM Prisma en el entorno de NodeJs. Desarrollada como entregable de resultado APRENDIZA DEL ORM PRISMA del tecnologo ADSO con ficha 2846103. En la cual se lleva un control de clientes, facturación e inventario de los productos que ofrece.",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"nodemon index.js"
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "dependencies": {
     "express": "^4.21.2",
     "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "prisma": "^6.4.1"
   }
 }
