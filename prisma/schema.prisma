@@ -14,9 +14,21 @@ datasource db {
 }
 
 model ClientesMJC{
-  cl_documento Int @id @default(autoincrement())
+  cl_documento Int @id @unique
   cl_nombre String @db.VarChar(50)
   cl_direccion String @db.VarChar(50)
   cl_telefono String @db.VarChar(20)
   cl_correo String @db.VarChar(30)
+}
+
+model VendedoresMJC{
+  venUsuario Int @id 
+  venContraseña String
+}
+
+model ProductosMJC{
+  pro_codigo Int @id @unique
+  pro_descripcion String @db.Text
+  pro_valor Int 
+  pro_cantidad Int 
 }
