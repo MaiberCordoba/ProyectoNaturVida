@@ -1,0 +1,26 @@
+{
+  "name": "proyectonaturvida",
+  "version": "1.0.0",
+  "description": "La siguiente es una Api Rest con ORM Prisma en el entorno de NodeJs. Desarrollada como entregable de resultado APRENDIZA DEL ORM PRISMA del tecnologo ADSO con ficha 2846103. En la cual se lleva un control de clientes, facturación e inventario de los productos que ofrece.",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaiberCordoba/ProyectoNaturVida.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaiberCordoba/ProyectoNaturVida/issues"
+  },
+  "homepage": "https://github.com/MaiberCordoba/ProyectoNaturVida#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
