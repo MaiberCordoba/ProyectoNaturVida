@@ -19,15 +19,13 @@ model ClientesMJC{
   cl_direccion String @db.VarChar(50)
   cl_telefono String @db.VarChar(20)
   cl_correo String @db.VarChar(30)
-  factura FacturasMJC @relation(fields: [facturaID],references: [fac_numero])
-  facturaID Int
+  factura FacturasMJC []
 }
 
 model VendedoresMJC{
   venUsuario Int @id 
   venContraseña String
-  factura FacturasMJC @relation(fields: [factura_id],references: [fac_numero])
-  factura_id Int
+  factura FacturasMJC []
 }
 
 model ProductosMJC{
@@ -35,20 +33,22 @@ model ProductosMJC{
   pro_descripcion String @db.Text
   pro_valor Int 
   pro_cantidad Int 
-  fac_detalle FacturaDetalleMJC @relation(fields: [facd_id],references: [facd_numero])
-  facd_id Int
+  factura_detalle FacturaDetalleMJC[]
 }
 
 model FacturasMJC{
   fac_numero Int @id @unique @default(autoincrement())
   fac_fecha DateTime 
   fac_valorTotal Int
-  fac_cliente ClientesMJC[]
-  fac_vendedor VendedoresMJC[]
+  fac_cliente Int
+  cliente ClientesMJC @relation(fields: [fac_cliente],references: [cl_documento])
+  fac_vendedor Int
+  vendedor VendedoresMJC @relation(fields: [fac_vendedor],references: [venUsuario])
 }
 
 model FacturaDetalleMJC{
   facd_numero Int @id
   facd_cantidad Int
-  facd_producto ProductosMJC[]
+  facd_producto Int
+  producto_id ProductosMJC @relation(fields: [facd_producto],references: [pro_codigo])
 }
