@@ -3,6 +3,7 @@ import express from "express";
 import routeClientMJC from "./src/routes/clientes.router.MJC.js";
 import routerToken from "./src/token/tokenRouter.MJC.js";
 import routeVendedoresMJC from "./src/routes/vendedores.router.MJC.js";
+import routeProductosMJC from "./src/routes/productos.router.MJC.js";
 
 //inicializaciones
 const app = express();
@@ -18,6 +19,8 @@ app.use("/api",routerToken)
 //vendedores
 app.use("/api",routeVendedoresMJC)
 
+//productos
+app.use("/api",routeProductosMJC)
 
 //servidor
 app.listen(3000,()=>{
