@@ -23,7 +23,7 @@ model ClientesMJC{
 }
 
 model VendedoresMJC{
-  venUsuario Int @id 
+  venUsuario Int @id @unique
   venContraseña String
   factura FacturasMJC []
 }
