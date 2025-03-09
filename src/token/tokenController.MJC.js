@@ -5,7 +5,6 @@ export const tokenVendedoresMJC = async (req, res) => {
     try {
         const { identificacion, password } = req.body;
 
-        // 📌 Buscar usuario en la base de datos con Prisma
         const vendedor = await prisma.vendedoresMJC.findFirst({
             where: {
                 venUsuario: identificacion,
@@ -15,7 +14,7 @@ export const tokenVendedoresMJC = async (req, res) => {
         });
 
         if (vendedor) {
-            // 📌 Generar token JWT
+          
             const token = jwt.sign(
                 { user: vendedor },
                 process.env.AUTH_SECRET,
