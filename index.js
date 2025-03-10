@@ -13,6 +13,16 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
+//configurar el motor de plantilla ejs
+app.set("views", "./src/views");
+app.set("view engine", "ejs");
+
+//renderizando para que al ingresar la pagina redireccione a la documentacion
+app.get("/", (req, res) => {
+  res.render("documents.ejs");
+});
+
+
 //ruta clientes
 app.use("/api", routeClientMJC);
 
