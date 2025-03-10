@@ -6,6 +6,7 @@ import routeVendedoresMJC from "./src/routes/vendedores.router.MJC.js";
 import routeProductosMJC from "./src/routes/productos.router.MJC.js";
 import routeFacturasMJC from "./src/routes/facturas.router.MJC.js";
 import routeFacturaDetalleMJC from "./src/routes/facturaDetalle.router.MJC.js";
+import rutaConsultas from "./src/consultas/consultas.router.MJC.js";
 
 //inicializaciones
 const app = express();
@@ -29,6 +30,9 @@ app.use("/api",routeFacturasMJC)
 
 //facturasDetalles
 app.use("/api",routeFacturaDetalleMJC)
+
+//consultas
+app.use("/consultas",rutaConsultas)
 
 //servidor
 app.listen(3000,()=>{
