@@ -44,6 +44,7 @@ model FacturasMJC{
   cliente ClientesMJC @relation(fields: [fac_cliente],references: [cl_documento])
   fac_vendedor Int
   vendedor VendedoresMJC @relation(fields: [fac_vendedor],references: [venUsuario])
+  factura_detalle FacturaDetalleMJC[]
 }
 
 model FacturaDetalleMJC{
@@ -51,4 +52,6 @@ model FacturaDetalleMJC{
   facd_cantidad Int
   facd_producto Int
   producto_id ProductosMJC @relation(fields: [facd_producto],references: [pro_codigo])
+  facd_factura Int  
+  factura  FacturasMJC @relation(fields: [facd_factura], references: [fac_numero])
 }
