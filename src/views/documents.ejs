@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación API REST - Vendedores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container d-flex justify-content-center">
+    <div class="table-responsive" style="max-width: 50%;">
+    <h1>Documentación de API REST - Vendedores</h1>
+    
+    <h2>1. Autenticación de Vendedores</h2>
+    <table class="table table-dark table-striped">
+        <tr>
+            <td>Número</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>Nombre</td>
+            <td>Login Vendedores</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite autenticar a un vendedor con credenciales válidas y devuelve un token JWT.</td>
+        </tr>
+        <tr>
+            <td>URI</td>
+            <td><code>/login</code></td>
+        </tr>
+        <tr>
+            <td>Verbo HTTP</td>
+            <td>POST</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>
+                <strong>Content-Type:</strong> application/json
+            </td>
+        </tr>
+        <tr>
+            <td>Request</td>
+            <td>
+                <pre>{ "identificacion": "123456", "password": "clave123" }</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Response</td>
+            <td>
+                <strong>Correcto:</strong><br>
+                Status: 200<br>
+                Body: <pre>{ "message": "Usuario autenticado", "token": "eyJhbGciOiJIUzI1NiIs..." }</pre><br>
+                <strong>No autenticado:</strong><br>
+                Status: 404<br>
+                Body: <pre>{ "message": "Usuario no autenticado" }</pre><br>
+                <strong>Error del sistema:</strong><br>
+                Status: 500<br>
+                Body: <pre>{ "message": "Error al autenticar usuario" }</pre>
+            </td>
+        </tr>
+    </table>
+
+    <h2>2. Verificación de Token</h2>
+    <table class="table table-dark table-striped">
+        <tr>
+            <td>Número</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Nombre</td>
+            <td>Verificar Token</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Verifica la validez de un token JWT para autorizar el acceso a recursos protegidos.</td>
+        </tr>
+        <tr>
+            <td>URI</td>
+            <td>Protegido, se usa como middleware</td>
+        </tr>
+        <tr>
+            <td>Verbo HTTP</td>
+            <td>Middleware</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>
+                <strong>Authorization:</strong> Bearer (Token)
+            </td>
+        </tr>
+        <tr>
+            <td>Response</td>
+            <td>
+                <strong>Correcto:</strong><br>
+                Status: 200<br>
+                Body: <pre>{ "msg": "Token válido" }</pre><br>
+                <strong>Token no proporcionado:</strong><br>
+                Status: 401<br>
+                Body: <pre>{ "msg": "Token not provided" }</pre><br>
+                <strong>Token inválido:</strong><br>
+                Status: 401<br>
+                Body: <pre>{ "msg": "Invalid token" }</pre><br>
+                <strong>Token expirado:</strong><br>
+                Status: 401<br>
+                Body: <pre>{ "msg": "Token expired" }</pre><br>
+                <strong>Error interno:</strong><br>
+                Status: 500<br>
+                Body: <pre>{ "msg": "Error authenticating" }</pre>
+            </td>
+        </tr>
+    </table>
+
+    <h2>3. Listar Clientes</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>3</td></tr>
+        <tr><td>Nombre</td><td>Listar Clientes</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de todos los clientes registrados.</td></tr>
+        <tr><td>URI</td><td><code>/client</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>200 OK:</strong> Lista de clientes en JSON.<br>
+            <strong>404 Not Found:</strong> {"message": "clientes no encontrados"}<br>
+            <strong>500 Error:</strong> {"message": "sistema"}
+        </td></tr>
+    </table>
+
+    <h2>4. Crear Cliente</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>4</td></tr>
+        <tr><td>Nombre</td><td>Crear Cliente</td></tr>
+        <tr><td>Descripción</td><td>Registra un nuevo cliente.</td></tr>
+        <tr><td>URI</td><td><code>/client</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>
+            Body JSON:<br>
+            { "identificacion": 12345, "nombres": "Juan Perez", "direccion": "Calle 123", "telefono": "123456789" }
+        </td></tr>
+        <tr><td>Response</td><td>
+            <strong>201 Created:</strong> {"message": "nuevo cliente registrado con éxito"}<br>
+            <strong>400 Bad Request:</strong> {"message": "no fue posible registrar nuevo cliente"}<br>
+            <strong>500 Error:</strong> {"message": "sistema"}
+        </td></tr>
+    </table>
+
+    <h2>5. Editar Cliente</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>5</td></tr>
+        <tr><td>Nombre</td><td>Editar Cliente</td></tr>
+        <tr><td>Descripción</td><td>Modifica la información de un cliente existente.</td></tr>
+        <tr><td>URI</td><td><code>/client/:cl_documento</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>
+            Body JSON con datos actualizados.<br>
+        </td></tr>
+        <tr><td>Response</td><td>
+            <strong>200 OK:</strong> Datos actualizados.<br>
+            <strong>400 Bad Request:</strong> {"message": "no fue posible editar info del cliente"}<br>
+            <strong>500 Error:</strong> {"message": "sistema"}
+        </td></tr>
+    </table>
+
+    <h2>6. Eliminar Cliente</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>6</td></tr>
+        <tr><td>Nombre</td><td>Eliminar Cliente</td></tr>
+        <tr><td>Descripción</td><td>Elimina un cliente por su identificación.</td></tr>
+        <tr><td>URI</td><td><code>/client/:cl_documento</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>DELETE</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>200 OK:</strong> {"message": "Cliente eliminado con éxito"}<br>
+            <strong>404 Not Found:</strong> {"message": "no fue posible eliminar con éxito"}<br>
+            <strong>500 Error:</strong> {"message": "sistema"}
+        </td></tr>
+    </table>
+
+    <h2>7. Buscar Cliente</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>7</td></tr>
+        <tr><td>Nombre</td><td>Buscar Cliente</td></tr>
+        <tr><td>Descripción</td><td>Busca un cliente por su identificación.</td></tr>
+        <tr><td>URI</td><td><code>/client/:cl_documento</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>200 OK:</strong> Datos del cliente.<br>
+            <strong>400 Bad Request:</strong> {"message": "no fue posible encontrar info del cliente"}<br>
+            <strong>500 Error:</strong> {"message": "sistema"}
+        </td></tr>
+    </table>
+
+    <h2>8. Listar Vendedores</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>8</td></tr>
+        <tr><td>Nombre</td><td>Listar Vendedores</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de todos los vendedores registrados.</td></tr>
+        <tr><td>URI</td><td><code>/vendedores</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong> Status: 200, JSON con lista de vendedores.<br>
+            <strong>No encontrado:</strong> Status: 404, {"message": "Vendedores no encontrados"}<br>
+            <strong>Error del sistema:</strong> Status: 500, {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+    
+    <h2>9. Crear Vendedor</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>9</td></tr>
+        <tr><td>Nombre</td><td>Crear Vendedor</td></tr>
+        <tr><td>Descripción</td><td>Registra un nuevo vendedor en el sistema.</td></tr>
+        <tr><td>URI</td><td><code>/vendedores</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>JSON con los datos del vendedor.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong> Status: 201, {"message": "Nuevo vendedor registrado con éxito"}<br>
+            <strong>Error de validación:</strong> Status: 400, {"message": "No fue posible registrar el nuevo vendedor"}<br>
+            <strong>Error del sistema:</strong> Status: 500, {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+    
+    <h2>10. Editar Vendedor</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>10</td></tr>
+        <tr><td>Nombre</td><td>Editar Vendedor</td></tr>
+        <tr><td>Descripción</td><td>Modifica la información de un vendedor específico.</td></tr>
+        <tr><td>URI</td><td><code>/vendedores/:venUsuario</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>JSON con los datos a actualizar.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong> Status: 200, JSON con la información actualizada.<br>
+            <strong>Error de validación:</strong> Status: 400, {"message": "No fue posible editar la información del vendedor"}<br>
+            <strong>Error del sistema:</strong> Status: 500, {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+    
+    <h2>11. Eliminar Vendedor</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>11</td></tr>
+        <tr><td>Nombre</td><td>Eliminar Vendedor</td></tr>
+        <tr><td>Descripción</td><td>Elimina un vendedor del sistema.</td></tr>
+        <tr><td>URI</td><td><code>/vendedores/:venUsuario</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>DELETE</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong> Status: 200, {"message": "Vendedor eliminado con éxito"}<br>
+            <strong>No encontrado:</strong> Status: 404, {"message": "No fue posible eliminar el vendedor"}<br>
+            <strong>Error del sistema:</strong> Status: 500, {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+    
+    <h2>12. Buscar Vendedor</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>12</td></tr>
+        <tr><td>Nombre</td><td>Buscar Vendedor</td></tr>
+        <tr><td>Descripción</td><td>Busca un vendedor específico por su ID.</td></tr>
+        <tr><td>URI</td><td><code>/vendedores/:venUsuario</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong> Status: 200, JSON con la información del vendedor.<br>
+            <strong>No encontrado:</strong> Status: 400, {"message": "No fue posible encontrar información del vendedor"}<br>
+            <strong>Error del sistema:</strong> Status: 500, {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+
+        <h2 class="mt-4">13. Crear Producto</h2>
+        <table class="table table-dark table-striped">
+            <tr><td>Número</td><td>13</td></tr>
+            <tr><td>Nombre</td><td>Listar Productos</td></tr>
+            <tr><td>Descripción</td><td>Obtiene la lista de todos los productos registrados.</td></tr>
+            <tr><td>URI</td><td><code>/productos</code></td></tr>
+            <tr><td>Verbo HTTP</td><td>GET</td></tr>
+            <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+            <tr><td>Request</td><td>No requiere cuerpo.</td></tr>
+            <tr><td>Response</td><td>
+                <strong>Correcto (200):</strong> Lista de productos en JSON.<br>
+                <strong>No encontrado (404):</strong> {"message": "Productos no encontrados"}<br>
+                <strong>Error (500):</strong> {"message": "Error en el sistema"}
+            </td></tr>
+        </table>
+
+        <h2 class="mt-4">14. Crear Producto</h2>
+        <table class="table table-dark table-striped">
+            <tr><td>Número</td><td>14</td></tr>
+            <tr><td>Nombre</td><td>Crear Producto</td></tr>
+            <tr><td>Descripción</td><td>Registra un nuevo producto en la base de datos.</td></tr>
+            <tr><td>URI</td><td><code>/productos</code></td></tr>
+            <tr><td>Verbo HTTP</td><td>POST</td></tr>
+            <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+            <tr><td>Request</td><td>
+                <code>{ "nombre": "Producto A", "precio": 100 }</code>
+            </td></tr>
+            <tr><td>Response</td><td>
+                <strong>Correcto (201):</strong> {"message": "Nuevo producto registrado con éxito"}<br>
+                <strong>Error (400):</strong> {"message": "No fue posible registrar el nuevo producto"}<br>
+                <strong>Error (500):</strong> {"message": "Error en el sistema"}
+            </td></tr>
+        </table>
+
+        <h2 class="mt-4">15. Editar Producto</h2>
+        <table class="table table-dark table-striped">
+            <tr><td>Número</td><td>15</td></tr>
+            <tr><td>Nombre</td><td>Editar Producto</td></tr>
+            <tr><td>Descripción</td><td>Modifica los datos de un producto existente.</td></tr>
+            <tr><td>URI</td><td><code>/productos/:pro_codigo</code></td></tr>
+            <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+            <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+            <tr><td>Request</td><td>
+                <code>{ "nombre": "Producto B", "precio": 120 }</code>
+            </td></tr>
+            <tr><td>Response</td><td>
+                <strong>Correcto (200):</strong> JSON con el producto actualizado.<br>
+                <strong>Error (400):</strong> {"message": "No fue posible editar la información del producto"}<br>
+                <strong>Error (500):</strong> {"message": "Error en el sistema"}
+            </td></tr>
+        </table>
+
+        <h2 class="mt-4">16. Eliminar Producto</h2>
+        <table class="table table-dark table-striped">
+            <tr><td>Número</td><td>16</td></tr>
+            <tr><td>Nombre</td><td>Eliminar Producto</td></tr>
+            <tr><td>Descripción</td><td>Elimina un producto de la base de datos.</td></tr>
+            <tr><td>URI</td><td><code>/productos/:pro_codigo</code></td></tr>
+            <tr><td>Verbo HTTP</td><td>DELETE</td></tr>
+            <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+            <tr><td>Response</td><td>
+                <strong>Correcto (200):</strong> {"message": "Producto eliminado con éxito"}<br>
+                <strong>Error (404):</strong> {"message": "No fue posible eliminar el producto"}<br>
+                <strong>Error (500):</strong> {"message": "Error en el sistema"}
+            </td></tr>
+        </table>
+
+        <h2 class="mt-4">17. Buscar Producto</h2>
+        <table class="table table-dark table-striped">
+            <tr><td>Número</td><td>17</td></tr>
+            <tr><td>Nombre</td><td>Buscar Producto</td></tr>
+            <tr><td>Descripción</td><td>Busca un producto específico por su código.</td></tr>
+            <tr><td>URI</td><td><code>/productos/:pro_codigo</code></td></tr>
+            <tr><td>Verbo HTTP</td><td>GET</td></tr>
+            <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+            <tr><td>Response</td><td>
+                <strong>Correcto (200):</strong> JSON con la información del producto.<br>
+                <strong>Error (400):</strong> {"message": "No fue posible encontrar información del producto"}<br>
+                <strong>Error (500):</strong> {"message": "Error en el sistema"}
+            </td></tr>
+        </table>
+
+        <h2>18. Listar Productos</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>18</td></tr>
+        <tr><td>Nombre</td><td>Listar Productos</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de todos los productos registrados en la base de datos.</td></tr>
+        <tr><td>URI</td><td><code>/productos</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)<br><strong>Content-Type:</strong> application/json</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong><br>
+            Status: 200<br>
+            Body: Lista de productos en formato JSON.<br>
+            Ejemplo: <code>[{"pro_codigo":1,"nombre":"Producto A","precio":100}]</code><br><br>
+            <strong>No encontrado:</strong><br>
+            Status: 404<br>
+            Body: {"message": "Productos no encontrados"}<br><br>
+            <strong>Error del sistema:</strong><br>
+            Status: 500<br>
+            Body: {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+    
+    <h2>19. Crear Producto</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>19</td></tr>
+        <tr><td>Nombre</td><td>Crear Producto</td></tr>
+        <tr><td>Descripción</td><td>Registra un nuevo producto en la base de datos.</td></tr>
+        <tr><td>URI</td><td><code>/productos</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)<br><strong>Content-Type:</strong> application/json</td></tr>
+        <tr><td>Request</td><td>
+            Body:
+            <code>{"nombre":"Producto A","precio":100}</code>
+        </td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong><br>
+            Status: 201<br>
+            Body: {"message": "Nuevo producto registrado con éxito"}<br><br>
+            <strong>Error del sistema:</strong><br>
+            Status: 500<br>
+            Body: {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+    
+    <h1>Documentación de API REST - Facturas</h1>
+    
+    <h2>20. Listar Facturas</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>20</td></tr>
+        <tr><td>Nombre</td><td>Listar Facturas</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de todas las facturas registradas.</td></tr>
+        <tr><td>URI</td><td><code>/facturas</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)<br><strong>Content-Type:</strong> application/json</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto:</strong><br>
+            Status: 200<br>
+            Body: Lista de facturas en formato JSON.<br>
+            Ejemplo: <code>[{"fac_numero":1,"cliente":"Juan Perez","total":500}]</code><br><br>
+            <strong>No encontrado:</strong><br>
+            Status: 404<br>
+            Body: {"message": "Facturas no encontradas"}<br><br>
+            <strong>Error del sistema:</strong><br>
+            Status: 500<br>
+            Body: {"message": "Error en el sistema"}
+        </td></tr>
+    </table>
+
+    <h2>21. Listar Detalles de Factura</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>21</td></tr>
+        <tr><td>Nombre</td><td>Listar Detalles de Factura</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de todos los detalles de facturas registradas en la base de datos.</td></tr>
+        <tr><td>URI</td><td><code>/factura-detalle</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> Lista de detalles de facturas en JSON.<br>
+            <strong>No encontrado (404):</strong> { "message": "Detalles de factura no encontrados" }<br>
+            <strong>Error (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+    
+    <h2>22. Crear Detalle de Factura</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>22</td></tr>
+        <tr><td>Nombre</td><td>Crear Detalle de Factura</td></tr>
+        <tr><td>Descripción</td><td>Registra un nuevo detalle de factura en la base de datos.</td></tr>
+        <tr><td>URI</td><td><code>/factura-detalle</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)<br><strong>Content-Type:</strong> application/json</td></tr>
+        <tr><td>Request</td><td>JSON con los datos del detalle de factura.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Creado (201):</strong> { "message": "Nuevo detalle de factura registrado con éxito" }<br>
+            <strong>Error (400):</strong> { "message": "No fue posible registrar el nuevo detalle de factura" }<br>
+            <strong>Error (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+    
+    <h2>23. Editar Detalle de Factura</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>23</td></tr>
+        <tr><td>Nombre</td><td>Editar Detalle de Factura</td></tr>
+        <tr><td>Descripción</td><td>Modifica los datos de un detalle de factura específico.</td></tr>
+        <tr><td>URI</td><td><code>/factura-detalle/:facd_numero</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)<br><strong>Content-Type:</strong> application/json</td></tr>
+        <tr><td>Request</td><td>JSON con los datos a modificar.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> Datos del detalle de factura actualizado.<br>
+            <strong>Error (400):</strong> { "message": "No fue posible editar la información del detalle de factura" }<br>
+            <strong>Error (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+    
+    <h2>24. Eliminar Detalle de Factura</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>24</td></tr>
+        <tr><td>Nombre</td><td>Eliminar Detalle de Factura</td></tr>
+        <tr><td>Descripción</td><td>Elimina un detalle de factura específico.</td></tr>
+        <tr><td>URI</td><td><code>/factura-detalle/:facd_numero</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>DELETE</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> { "message": "Detalle de factura eliminado con éxito" }<br>
+            <strong>No encontrado (404):</strong> { "message": "No fue posible eliminar el detalle de factura" }<br>
+            <strong>Error (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+    
+    <h2>25. Buscar Detalle de Factura</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>25</td></tr>
+        <tr><td>Nombre</td><td>Buscar Detalle de Factura</td></tr>
+        <tr><td>Descripción</td><td>Busca un detalle de factura específico según su número.</td></tr>
+        <tr><td>URI</td><td><code>/factura-detalle/:facd_numero</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> Datos del detalle de factura encontrado.<br>
+            <strong>No encontrado (400):</strong> { "message": "No fue posible encontrar información del detalle de factura" }<br>
+            <strong>Error (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+
+    <h2>26. Listar Facturas</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>RF12</td></tr>
+        <tr><td>Nombre</td><td>Listar Facturas</td></tr>
+        <tr><td>Descripción</td><td>Obtiene todas las facturas con su información detallada.</td></tr>
+        <tr><td>URI</td><td><code>/RF12</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> Lista de facturas en JSON.<br>
+            <strong>No encontrado (404):</strong> { "message": "No hay facturas registradas" }<br>
+            <strong>Error del sistema (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+
+    <h2>27. Listar Productos</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>RF13</td></tr>
+        <tr><td>Nombre</td><td>Listar Productos</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de productos con unidades vendidas.</td></tr>
+        <tr><td>URI</td><td><code>/RF13</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> Lista de productos en JSON.<br>
+            <strong>No encontrado (404):</strong> { "message": "No hay productos registrados" }<br>
+            <strong>Error del sistema (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+
+    <h2>28. Listar Productos Más Vendidos</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>RF14</td></tr>
+        <tr><td>Nombre</td><td>Listar Productos Más Vendidos</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de productos ordenados por unidades vendidas.</td></tr>
+        <tr><td>URI</td><td><code>/RF14</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> Lista de productos ordenada en JSON.<br>
+            <strong>Error del sistema (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+
+    <h2>29. Listar Productos por Vendedor</h2>
+    <table class="table table-dark table-striped">
+        <tr><td>Número</td><td>RF16</td></tr>
+        <tr><td>Nombre</td><td>Listar Productos por Vendedor</td></tr>
+        <tr><td>Descripción</td><td>Obtiene la lista de productos vendidos por cada vendedor.</td></tr>
+        <tr><td>URI</td><td><code>/RF16</code></td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td><strong>Authorization:</strong> Bearer (Token)</td></tr>
+        <tr><td>Request</td><td>No requiere cuerpo en la solicitud.</td></tr>
+        <tr><td>Response</td><td>
+            <strong>Correcto (200):</strong> Lista de productos por vendedor en JSON.<br>
+            <strong>Error del sistema (500):</strong> { "message": "Error en el sistema" }
+        </td></tr>
+    </table>
+</body>
+</html>
